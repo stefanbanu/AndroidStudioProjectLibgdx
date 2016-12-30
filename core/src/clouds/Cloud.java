@@ -20,6 +20,8 @@ public class Cloud extends Sprite{
     private Body body;
     private String cloudName;
 
+    private boolean drawLeft;
+
     public Cloud(World world, String cloudName) {
         super(new Texture("clouds/" + cloudName + ".png"));
         this.world = world;
@@ -30,14 +32,14 @@ public class Cloud extends Sprite{
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
 
-        bodyDef.position.set((getX() - 40) / GameProperties.PPM,
+        bodyDef.position.set((getX() - 45) / GameProperties.PPM,
                 getY()  / GameProperties.PPM);
 
         body = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox((getWidth()/2 - 20) / GameProperties.PPM,
-                (getHeight()/2)/GameProperties.PPM);
+                (getHeight()/2 - 5)/GameProperties.PPM);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -54,5 +56,13 @@ public class Cloud extends Sprite{
 
     public String getCloudName() {
         return this.cloudName;
+    }
+
+    public boolean isDrawLeft() {
+        return drawLeft;
+    }
+
+    public void setDrawLeft(boolean drawLeft) {
+        this.drawLeft = drawLeft;
     }
 }

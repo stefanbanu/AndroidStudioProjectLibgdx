@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+
+import player.Player;
 import utils.GameProperties;
 
 import java.util.Random;
@@ -80,9 +82,11 @@ public class CloudsController {
                 if (controlX == 0) {
                     tempX = randomBetweenNumbers(maxX - 20, maxX);
                     controlX = 1;
+                    c.setDrawLeft(false);
                 } else if (controlX == 1) {
                     tempX = randomBetweenNumbers(minX + 20, minX);
                     controlX = 0;
+                    c.setDrawLeft(true);
                 }
 
                 c.setSpritePosition(tempX, positionY);
@@ -95,7 +99,11 @@ public class CloudsController {
 
     public void drawClouds(SpriteBatch batch) {
         for (Cloud c : clouds) {
-            batch.draw(c, c.getX() - c.getWidth() / 2f, c.getY() - c.getHeight() / 2f);
+           if(c.isDrawLeft()){
+               batch.draw(c, c.getX() - c.getWidth() / 2f - 20, c.getY() - c.getHeight() / 2f);
+           }else {
+               batch.draw(c, c.getX() - c.getWidth() / 2f + 10, c.getY() - c.getHeight() / 2f);
+           }
         }
     }
 
@@ -117,6 +125,11 @@ public class CloudsController {
 
     public void setCameraY(float cameraY) {
         this.cameraY = cameraY;
+    }
+
+    public Player positionThePlayer(Player player){
+        player = new Player(world, clouds.get(0).getX(), clouds.get(0).getY() + 100);
+        return player;
     }
 
     private float randomBetweenNumbers(float min, float max) {

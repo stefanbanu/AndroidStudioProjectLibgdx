@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.stefanbanu.jackthegiant.GameMain;
 
 import clouds.Cloud;
+import player.Player;
 import utils.GameProperties;
 
 /**
@@ -39,6 +40,7 @@ public class GamePlay implements Screen{
     Cloud c;*/
 
     private CloudsController cloudsController;
+    private Player player;
 
     public GamePlay(GameMain game) {
         this.game = game;
@@ -62,11 +64,13 @@ public class GamePlay implements Screen{
 
         cloudsController = new CloudsController(world);
 
+        player = cloudsController.positionThePlayer(player);
+
         createBackgrounds();
     }
 
     void update(float dt) {
-        moveCamera();
+      //  moveCamera();
         checkBackgroundsOutOfBounds();
         cloudsController.setCameraY(mainCamera.position.y);
         cloudsController.createAndArrangeNewClouds();
@@ -124,12 +128,18 @@ public class GamePlay implements Screen{
 
         cloudsController.drawClouds(game.getBatch());
 
+        player.drawPlayer(game.getBatch());
+
         game.getBatch().end();
 
         debugRenderer.render(world, box2DCamera.combined);
 
         game.getBatch().setProjectionMatrix(mainCamera.combined);
         mainCamera.update();
+
+        player.updatePlayer();
+
+        world.step(Gdx.graphics.getDeltaTime(), 6, 2);
 
     }
 
