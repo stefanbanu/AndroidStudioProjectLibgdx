@@ -36,6 +36,8 @@ public class Player extends Sprite{
 
         body = world.createBody(bodyDef);
 
+        //System.out.println("test");
+
         PolygonShape shape = new PolygonShape();
         shape.setAsBox((getWidth() / 2f - 10) / GameProperties.PPM, (getHeight() / 2f) / GameProperties.PPM);
 
